@@ -1,74 +1,170 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>XV Clara</title>
 
 <style>
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
-font-family: Arial;
-text-align:center;
-background:#f9f4f7;
 margin:0;
+font-family: 'Segoe UI', sans-serif;
+background:#faf7f9;
+color:#333;
+text-align:center;
 }
 
 section{
-padding:60px;
+padding:90px 20px;
 }
 
 h1{
-font-size:50px;
+font-size:64px;
+margin:10px;
+}
+
+h2{
+font-size:34px;
+margin-bottom:20px;
+}
+
+p{
+font-size:18px;
 }
 
 button{
-padding:15px 30px;
-font-size:18px;
+padding:15px 32px;
+font-size:16px;
 border:none;
+border-radius:30px;
 background:#d4a373;
 color:white;
-border-radius:8px;
 cursor:pointer;
+margin-top:15px;
+transition:0.3s;
+}
+
+button:hover{
+background:#c48a5b;
+transform:scale(1.05);
+}
+
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background:linear-gradient(#f7edf3,#fff);
+}
+
+.countdown{
+font-size:28px;
+margin:20px;
+}
+
+.arrow{
+font-size:40px;
+margin-top:20px;
+animation:bounce 2s infinite;
+}
+
+@keyframes bounce{
+0%{transform:translateY(0)}
+50%{transform:translateY(10px)}
+100%{transform:translateY(0)}
+}
+
+.music{
+position:fixed;
+top:20px;
+right:20px;
+z-index:1000;
+}
+
+.music button{
+border-radius:50%;
+width:60px;
+height:60px;
+font-size:20px;
+}
+
+.gallery{
+position:relative;
+max-width:400px;
+margin:auto;
 }
 
 .gallery img{
-width:250px;
-margin:10px;
-border-radius:10px;
+width:100%;
+border-radius:15px;
+display:none;
+}
+
+.gallery img.active{
+display:block;
+}
+
+footer{
+padding:60px;
+font-size:20px;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<section>
-<h1>XV CLARA</h1>
-<p>Te espero el 26 de junio de 2026</p>
+<div class="music">
+<audio id="song" src="cancion.mp3"></audio>
+<button onclick="playMusic()">🎵</button>
+</div>
 
-<button onclick="document.getElementById('info').scrollIntoView()">
-Abrir invitación
+<section class="hero">
+
+<h1>XV CLARA</h1>
+
+<p>Te espero el día <b>26 de junio de 2026</b></p>
+
+<div class="countdown" id="countdown"></div>
+
+<button onclick="scrollToSection()">Abrir invitación</button>
+
+<div class="arrow">↓</div>
+
+</section>
+
+<section id="evento">
+
+<h2>El evento</h2>
+
+<p>📍 Lugar: Salón prado español</p>
+<p>🕘 Hora: 21:00</p>
+<p>👗 Dress Code: Elegante</p>
+
+<button onclick="window.open('LINK_CALENDARIO')">
+Agendar fecha
 </button>
 
 </section>
 
-<section id="info">
-
-<h2>Detalles</h2>
-
-<p>📍 Lugar: (poner salón)</p>
-<p>🕘 Hora: 21:00</p>
-<p>👗 Dress Code: Elegante</p>
-
-</section>
-
 <section>
 
-<h2>Confirmación</h2>
+<h2>¿Venís?</h2>
 
-<a href="PONER_LINK_WHATSAPP">
-<button>Confirmar asistencia</button>
-</a>
+<p>Confirmá tu asistencia</p>
+
+<button onclick="window.open('LINK_CONFIRMAR')">
+Confirmar asistencia
+</button>
 
 </section>
 
@@ -76,47 +172,109 @@ Abrir invitación
 
 <h2>Playlist</h2>
 
-<a href="LINK_FORM_CANCIONES">
-<button>Sugerir canción</button>
-</a>
+<p>¿Qué canción no puede faltar?</p>
+
+<button onclick="window.open('LINK_CANCIONES')">
+Sugerir canción
+</button>
 
 </section>
 
 <section>
 
-<h2>Subir fotos</h2>
+<h2>Fotos</h2>
 
-<a href="LINK_GOOGLE_DRIVE">
-<button>Subir fotos</button>
-</a>
+<p>Subí las fotos de la fiesta</p>
+
+<button onclick="window.open('LINK_FOTOS')">
+Subir fotos
+</button>
 
 </section>
 
 <section>
 
-<h2>Restricciones alimenticias</h2>
+<h2>Menú</h2>
 
-<a href="LINK_FORM_MENU">
-<button>Informar restricción</button>
-</a>
+<p>Si tenés restricciones alimenticias</p>
+
+<button onclick="window.open('LINK_MENU')">
+Informar restricción
+</button>
 
 </section>
 
-<section class="gallery">
+<section>
 
-<h2>Galería</h2>
+<h2>Clara</h2>
 
-<img src="foto1.jpg">
+<div class="gallery">
+
+<img src="foto1.jpg" class="active">
 <img src="foto2.jpg">
 <img src="foto3.jpg">
+<img src="foto4.jpg">
+
+</div>
 
 </section>
 
-<section>
+<footer>
 
-<h2>Gracias por ser parte de este momento tan especial 💖</h2>
+Gracias por ser parte de este momento tan especial 💖
 
-</section>
+</footer>
+
+<script>
+
+function playMusic(){
+document.getElementById("song").play();
+}
+
+function scrollToSection(){
+document.getElementById("evento").scrollIntoView();
+}
+
+const eventDate = new Date("June 26, 2026 21:00:00").getTime();
+
+setInterval(function(){
+
+const now = new Date().getTime();
+const distance = eventDate - now;
+
+const days = Math.floor(distance/(1000*60*60*24));
+const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
+const seconds = Math.floor((distance%(1000*60))/1000);
+
+document.getElementById("countdown").innerHTML =
+days+" días "+hours+" hs "+minutes+" min "+seconds+" s";
+
+},1000);
+
+let slideIndex = 0;
+
+function showSlides(){
+
+let slides = document.querySelectorAll(".gallery img");
+
+slides.forEach(img => img.classList.remove("active"));
+
+slideIndex++;
+
+if(slideIndex>slides.length){
+slideIndex=1;
+}
+
+slides[slideIndex-1].classList.add("active");
+
+setTimeout(showSlides,3000);
+
+}
+
+showSlides();
+
+</script>
 
 </body>
 </html>
